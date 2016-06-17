@@ -7,6 +7,7 @@ from charmhelpers.core.hookenv import(
 VXLAN = 'vxlan'
 OVERLAY_NET_TYPES = [VXLAN]
 
+
 class BuildSDNRelation(helpers.RelationContext):
     name = 'neutron-plugin-api-subordinate'
     interface = 'neutron-plugin-api-subordinate'
@@ -59,9 +60,11 @@ class ONOSControllerRelation(helpers.RelationContext):
 
 
 class ConfigTranslation(dict):
+
     def __init__(self):
         self['overlay_network_type'] = self.get_overlay_network_type()
         self['security_groups'] = config('security-groups')
+
     def get_overlay_network_type(self):
         overlay_networks = config('overlay-network-type').split()
         for overlay_net in overlay_networks:
