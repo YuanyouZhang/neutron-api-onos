@@ -6,6 +6,8 @@ from charmhelpers.core.hookenv import(
 
 VXLAN = 'vxlan'
 OVERLAY_NET_TYPES = [VXLAN]
+PLUGINS = 'networking_sfc.services.sfc.plugin.SfcPlugin, networking\
+_sfc.services.flowclassifier.plugin.FlowClassifierPlugin, onos_router'
 
 
 class BuildSDNRelation(helpers.RelationContext):
@@ -28,7 +30,7 @@ class BuildSDNRelation(helpers.RelationContext):
             'neutron-plugin': 'onos',
             'core-plugin': 'neutron.plugins.ml2.plugin.Ml2Plugin',
             'neutron-plugin-config': '/etc/neutron/plugins/ml2/ml2_conf.ini',
-            'service-plugins': 'onos_router',
+            'service-plugins': PLUGINS,
             'subordinate_configuration': json.dumps(neutron_config),
         }
         return relationinfos

@@ -8,6 +8,9 @@ TO_PATCH = [
     'config',
 ]
 
+PLUGINS = 'networking_sfc.services.sfc.plugin.SfcPlugin, networking\
+_sfc.services.flowclassifier.plugin.FlowClassifierPlugin, onos_router'
+
 
 def fake_context(settings):
     def outer():
@@ -55,7 +58,7 @@ class NeutronApiSDNRelationTest(CharmTestCase):
             'core-plugin': 'neutron.plugins.ml2.plugin.Ml2Plugin',
             'neutron-plugin': 'onos',
             'neutron-plugin-config': '/etc/neutron/plugins/ml2/ml2_conf.ini',
-            'service-plugins': 'onos_router',
+            'service-plugins': PLUGINS,
         }
         provide_data = sdn_relation.provide_data()
         for key in expect.keys():
