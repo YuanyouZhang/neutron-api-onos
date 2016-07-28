@@ -23,4 +23,5 @@ def install_packages(servicename):
         pkgs = ['neutron-common', 'neutron-plugin-ml2']
         pkgs = filter_installed_packages(pkgs)
         apt_install(pkgs, fatal=True)
+   if hook_name() == "onos-controller-relation-changed":
         check_call("sudo neutron-db-manage --subproject networking-sfc upgrade head", shell=True)
