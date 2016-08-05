@@ -25,4 +25,4 @@ def install_packages(servicename):
         check_call("cd networking-sfc;sudo ./install_driver.sh;cd ..", shell=True)
         # Update neutron table
         check_call("sudo neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head", shell=True)
-        #check_call("sudo neutron-db-manage --subproject networking-sfc upgrade head", shell=True)
+        check_call("sudo neutron-db-manage --subproject networking-sfc upgrade head", shell=True)
