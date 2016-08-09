@@ -4,6 +4,7 @@ from charmhelpers.fetch import (
 )
 from charmhelpers.core.hookenv import hook_name
 from subprocess import check_call
+import os
 
 NEUTRON_CONF_DIR = "/etc/neutron"
 NEUTRON_CONF = '%s/neutron.conf' % NEUTRON_CONF_DIR
@@ -23,6 +24,11 @@ def install_packages(servicename):
         check_call("cd networking-onos;sudo ./install_driver.sh;cd ..", shell=True)
         check_call("sudo tar xvf files/networking-sfc.tar", shell=True)
         check_call("cd networking-sfc;sudo ./install_driver.sh;cd ..", shell=True)
+    if local_unit() == "neutron-api-onos/0":
         # Update neutron table
         check_call("sudo neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head", shell=True)
         check_call("sudo neutron-db-manage --subproject networking-sfc upgrade head", shell=True)
+
+def local_unit():
+    """Local unit ID"""
+    return os.environ['JUJU_UNIT_NAME']
