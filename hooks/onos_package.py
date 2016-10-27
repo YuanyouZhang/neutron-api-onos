@@ -3,7 +3,9 @@ from charmhelpers.fetch import (
     filter_installed_packages,
 )
 from charmhelpers.core.hookenv import hook_name
+from charmhelpers.core.hookenv import log
 from subprocess import check_call
+import subprocess
 import os
 
 NEUTRON_CONF_DIR = "/etc/neutron"
@@ -25,9 +27,14 @@ def install_packages(servicename):
         pkgs = filter_installed_packages(pkgs)
         apt_install(pkgs, fatal=True)
         # Update neutron table
-        #check_call("sudo neutron-db-manage --config-file /etc/neutron/neutron.conf --config-file /etc/neutron/plugins/ml2/ml2_conf.ini upgrade head", shell=True)
-        check_call("sudo neutron-db-manage --subproject networking-sfc upgrade head", shell=True)
+        update_sfc()
 
 def local_unit():
     """Local unit ID"""
     return os.environ['JUJU_UNIT_NAME']
+
+def update_sfc():
+    try:
+        check_call("sudo neutron-db-manage --subproject networking-sfc upgrade head", shell=True)
+    except subprocess.CalledProcessError as e:
+        log('Faild to update sfc')
